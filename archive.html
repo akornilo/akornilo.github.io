@@ -1,0 +1,14 @@
+---
+layout: page
+title: Archive
+permalink: /archive/
+---
+
+<ul class="posts noList">
+{% for post in site.posts %}
+	<li>
+        <span class="date">{{ post.date | date: '%B %d, %Y' }}</span>
+        <h3><a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h3>
+    </li>
+{% endfor %}
+</ul>
