@@ -16,8 +16,10 @@
     <!--[if IE 8]><link rel="stylesheet" href="{{ "/assets/css/ie.css" | prepend: site.baseurl }}"><![endif]-->
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
+    <!-- Google analytics -->
+    {% if site.google_analytics %} {% include analytics.html %} {% endif %}
+
     <!-- Modernizr -->
     <script src="{{ "/assets/js/modernizr.custom.15390.js" | prepend: site.baseurl }}" type="text/javascript"></script>
 
-    {% if site.google_analytics %} {% include analytics.html %} {% endif %}
 </head>
