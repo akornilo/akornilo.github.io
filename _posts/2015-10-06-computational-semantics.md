@@ -132,7 +132,7 @@ can be used to represent the sentences:
 
 and many others. In distributional semantics, there is not yet a specific way to model relationships between words, so this specific challenge does not apply.
 
-The problem of identifying different meanings of words is handled only by AMR, which uses different concepts (i.e run-01, run-02…) to denote the different senses. However, when converting to this format, picking the right concept for the context remains difficult.
+The problem of identifying different meanings of words is handled both by AMR and FrameNet, which uses different concepts (i.e run-01, run-02…) to denote the different senses. Similarly, FrameNet can employ different frames for different meanings of the same word. However, when converting to this format, picking the right concept for the context remains difficult.
 
 Overall, this is an on-going field of research, and some of the big breakthroughs are yet to come. However, I have some general take-aways which may apply beyond this specific problem:
 
@@ -149,3 +149,4 @@ If I’ve sufficiently whet your appetite and you want to learn more, here are s
 + [AMR website](http://amr.isi.edu/)
 + [Survey of AMR](http://www.melanietosik.com/files/amr.pdf)
 + [Introduction to Vector Space Models/Distributional Semantics](https://www.jair.org/media/2934/live-2934-4846-jair.pdf)
+
