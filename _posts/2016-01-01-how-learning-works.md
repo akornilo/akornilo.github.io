@@ -253,20 +253,20 @@ A common problem with machine learning algorithms is to know when to stop becaus
 
 Image Sources:
 
-* https://work.caltech.edu/library/
+* [](https://work.caltech.edu/library/)
 
-* https://www.quora.com/How-can-I-know-whether-my-data-is-linearly-separable
+* [](https://www.quora.com/How-can-I-know-whether-my-data-is-linearly-separable)
 
 Links in article:
 
-* http://karpathy.github.io/2015/05/21/rnn-effectiveness/
+* [](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
 
-* http://qwone.com/~jason/20Newsgroups/
+* [](http://qwone.com/~jason/20Newsgroups/)
 
-* http://web.engr.oregonstate.edu/~xfern/classes/cs534/notes/perceptron-4-11.pdf
+* [](http://web.engr.oregonstate.edu/~xfern/classes/cs534/notes/perceptron-4-11.pdf)
 
-* https://www.quora.com/What-are-Kernels-in-Machine-Learning-and-SVM
+* [](https://www.quora.com/What-are-Kernels-in-Machine-Learning-and-SVM)
 
-* https://en.wikipedia.org/wiki/Support_vector_machine
+* [](https://en.wikipedia.org/wiki/Support_vector_machine)
 
 
