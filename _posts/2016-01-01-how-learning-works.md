@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 layout: post
 title: "In which computers tell the difference between space and medicine"
 ---
@@ -16,12 +16,12 @@ Machine Learning is both [awesome](http://karpathy.github.io/2015/05/21/rnn-effe
 The data we will be classifying is part of the [20 newsgroups dataset](http://qwone.com/~jason/20Newsgroups/) and consists of online articles on various topics. The data we will be using has been tranformed in several ways:
 
  * Each article has been transformed into a dictionary mapping words to how many times they appear in the article.
- * The articles have been grouped into pairs of similar topics: macintosh vs ibm, medical vs space, and athetist vs christian.
+ * The articles have been grouped into pairs of similar topics: macintosh vs ibm, medical vs space, and atheist vs christian.
 
- Although, these changes sacrafice some of the information, they make it simple for us to dive into the classification task. You can check out the data in the 'data' subdirectory of the github repo. For each pair of topics, there are four files: *.dev, *.test, *.train and *.response. The dev, test and train files contain the split up data, with lines of the format:
+ Although, these changes sacrafice some of the information, they make it simple for us to dive into the classification task. You can check out the data in the 'data' subdirectory of the github repo. For each pair of topics, there are four files: *.dev, *.test, *.train and *.response. The dev, test and train files contain the split up data, with lines of the format (this example is from the medspace.train file):
 
  ```
- 51762.s	{"pl5": 1, "cbs": 1, "tin": 1, "edu": 1, "message": 1, "post": 1, "subject": 1, "from": 1, "re": 1, "robert": 1, "minnesota": 1, "molbio": 1, "pc": 1, "newsreader": 1, "umn": 1, "nntp": 1, "real": 1, "<digit>": 3, "tests": 1, "buy": 1, "macs": 1, "posting": 1, "host": 1, "x": 1, "suck": 1, "a": 1, "horton": 1, "university": 1, "lines": 1, "of": 1, "organization": 1}
+60801.s	{"control": 2, "in": 1, "au": 1, "thanks": 1, "edu": 1, "cold": 2, "sounding": 1, "size": 1, "from": 1, "for": 1, "how": 1, "jim": 1, "anyone": 1, "to": 1, "does": 1, "subject": 1, "roll": 2, "8725157m": 1, "australia": 1, "thruster": 2, "gas": 2, "levels": 1, "know": 1, "tanks": 2, "<digit>": 1, "advance": 1, "of": 1, "university": 1, "lines": 1, "unisa": 1, "rockets": 1, "organization": 1, "south": 1}
 ```
  
  where the first value is the id of the article and the second is its content. The response file has lines of the format:
@@ -44,14 +44,14 @@ The hyperplane is represented by a "weight vector" **w**. To classify an article
 
 <p id="eq1" align="center"> </p>
 <script>
-katex.render("\\text{sign}(w^Tx)", document.getElementById("eq1"));
+katex.render("\\text{sign}(\\mathbf{w^Tx})", document.getElementById("eq1"));
 </script>
 
 The sign will tell us which side of the hyperplane the article belongs on, and consequently which category it is in. This method works because the dot product is equal to the product of the magnitudes of the two vectors and the cosine of the angle between them:
 
 <p id="eq2" align="center"> </p>
 <script>
-katex.render("w^Tx = \\| w \\| \\|x \|| \\cos(\\theta)", document.getElementById("eq2"));
+katex.render("\\mathbf{w^Tx} = \\| \\mathbf{w} \\| \\|\\mathbf{x} \|| \\cos(\\theta)", document.getElementById("eq2"));
 </script>
 Since magnitudes are always non-negative, the sign is determined by the cosine which will be positive for angles between **0** and **180** and negative for the rest:
 
@@ -62,18 +62,18 @@ Since magnitudes are always non-negative, the sign is determined by the cosine w
 Since given a weight vector we can classify any article, the goal of the algorithm is to find this vector.
 
 ### Finding "w"
-A good weight vector will be one that classifies most of the training data correctly. One way to capture this criteria is by using a loss function which represents how much of the data is misclassified. The perceptron loss function is defined as follows (**x** represents the vector for a training data point, **y** represents the label (1 or -1) and **N** is the total number of training data points):
+A good weight vector will be one that classifies most of the training data correctly. One way to capture this criteria is by using a loss function which represents how much of the data is misclassified. The perceptron loss function is defined as follows (**x** represents the vector for a training data point, **y** represents the label (1 or -1) and 'N' is the total number of training data points):
 	
 <p id="eq3" align="center"> </p>
 <script>
-katex.render("L(w) = \\sum_{i=1}^N \\max(0, -y_i w \\cdot x_i)", document.getElementById("eq3"));
+katex.render("L(w) = \\sum_{i=1}^{N} \\max(0, -y_i \\mathbf{w} \\cdot \\mathbf{x_i})", document.getElementById("eq3"));
 </script>
 
 If the weight vector classified a point correctly, then 
 
 <p id="eq4" align="center"> </p>
 <script>
-katex.render("\\text{sign}(w \\cdot x_i) = y_i", document.getElementById("eq4"));
+katex.render("\\text{sign}(\\mathbf{w} \\cdot \\mathbf{x_i}) = y_i", document.getElementById("eq4"));
 </script>
 
 and the max will be 0, otherwise the max will represent the "distance" in the wrong direction. 
@@ -84,21 +84,21 @@ When we are looking at some point i, the loss is:
 
 <p id="eq5" align="center"> </p>
 <script>
-katex.render("L_i(w) = \\text{max}(0, -y_i w \\cdot x_i)", document.getElementById("eq5"));
+katex.render("L_i(w) = \\text{max}(0, -y_i \\mathbf{w \\cdot x_i})", document.getElementById("eq5"));
 </script>
 
 The gradient (derivative with respect to the weights) of this loss is:
 
 <p id="eq6" align="center"> </p>
 <script>
-katex.render("\\nabla L_i(w) = \\begin{cases} 0 & \\text{if} -y_i w \\cdot x_i > 0 \\\\ -y_i x_i & \\text{o.w} \\end{cases}", document.getElementById("eq6"));
+katex.render("\\nabla L_i(w) = \\begin{cases} 0 & \\text{if } y_i \\mathbf{w \\cdot x_i} > 0 \\\\ -y_i \\matbf{x_i} & \\text{o.w} \\end{cases}", document.getElementById("eq6"));
 </script>
 
 This leads to the update rule for the weights:
 
 <p id="eq7" align="center"> </p>
 <script>
-katex.render("w = w + y_i x_i", document.getElementById("eq7"));
+katex.render("\\mathbf{w} = \\mathbf{w} + y_i \\mathbf{x_i}", document.getElementById("eq7"));
 </script>
 
 which is how PLA is usually presented. Put together the algorithm is:
@@ -117,7 +117,7 @@ Now that we have come up with the algorithm, let's implement it and classify our
 python perceptron.py
 ```
 
-Lines 1 - 37 contain set-up code for the data. Next, we represent our vectors use python dictionaries which map words to an integer. This allows us to only store non-zero values, which is important given how sparse word vectors are. Lines 39-50 have two helper functions to deal with this unusual representation:
+Lines 1 - 37 contain set-up code for the data. Next, we represent our vectors use python dictionaries (essentially maps from keys to values) which map words to an integer. This allows us to only store non-zero values, which is important given how sparse word vectors are. Lines 39-50 have two helper functions to deal with this unusual representation:
 
 ```python
 def dotProd(v1, v2):
@@ -155,7 +155,7 @@ for i in range(10):
 		if not (dp * actualSign > 0):
 			weights = vecAdd(weights, vec, actualSign)
 ```
-The first four lines may look a little unusual, but they serve two purposes. First, given a limited number of points, we can use them multiple times to come up with a better boundary. Second, by shuffling the points, we avoid potential biases with how the data is presented. More details about convergence in the perceptron are at the end of the article. The rest of the lines follow the update procedure that we derived mathematically. 
+The first four lines may look a little unusual, but they serve two purposes. First, given a limited number of points, we can use them multiple times to come up with a better boundary. Second, by shuffling the points, we avoid potential biases with how the data is presented. Finally, I chose to use 10 iterations because I experimentally found this value to lead to a consistent performance (for more details, see convergence section at the end of the article). The rest of the lines follow the update procedure that we derived mathematically. 
 
 Finally, we evaluate the performance on both the train and the test data. Although, more sophisticated procedures evaluation methods exist, for now let's just see how many points we classified incorrectly:
 
@@ -188,9 +188,9 @@ print "Test data:", wrong, total, wrong * 100.0 / totall
 With this code (under 100 lines!), we are ready to train and test our model!
 
 ## Results
-Our data set has three pairs of categories. The pair that the code is run on can me modified in line 4. These are the results for each of the pairs (because of the shuffle, your results may differ slightly):
+Our data set has three pairs of categories. The pair that the code is run on can be modified in line 4. These are the results for each of the pairs (because of the shuffle, your results may differ slightly):
 
-Medical vs space articles
+Medical vs Space articles
 
 ```
 Train Data: 0 952 0.0
@@ -204,7 +204,7 @@ Train Data: 0 929 0.0
 Test data: 108 777 13.8996138996
 ```
 
-Athetist vs Christian
+Atheist vs Christian
 
 ```
 Train Data: 0 870 0.0
@@ -217,7 +217,7 @@ Overall, we get a great performance - we were able to classify the training data
 
 **Space**: space, c, orbit, earth, nasa, moon, jupiter, dc, part, just
 
-Some of these terms make a lot of sense and follow the same cues humans would use (words like space or moon generally appear in articles about space not medicine). Other terms seem a bit surprising, like 'what' in medical or 'part' in space. Overall, its pretty cool that even a simple algorithm can find the same cues as humans. The weights for the other categories show similar patterns:
+Some of these terms make a lot of sense and follow the same cues humans would use (words like space or moon generally appear in articles about space not medicine). Other terms are a bit surprising, like 'what' in medical or 'part' in space; these may either represent idiosyncrasies of the particular dataset or true subconcious trends of writing in these areas. In the first case, these weights may lead to overfitting (see section below); in the later, they provide insight about subconcious human patterns. Given the limited training data, it is hard to tell which is the case. Overall, its pretty cool that even a simple algorithm can find the same cues as humans. The weights for the other categories show similar patterns:
  
 **Mac**: mac, apple, quadra, centris, powerbook, macintosh, gnd, iisi, kemper, macs
 
@@ -234,10 +234,7 @@ Our implementation gave us a pretty good results, but it also highlighted a coup
 
 ### Overfitting
 
-As you may have noticed, the final weight vector performed much better on the training data (that was used to create it) than the test data. This phenomenon is known as overfiting; it occurs when we find a weight vector which represents the training data very well, but does not generalize beyond it. Two common solutions are:
-
-* Reguralizers: Adding constraints on the complexity of the model.
-* Cross-validation: Using all the data for training and testing by slicing it up in different ways.
+As you may have noticed, the final weight vector performed much better on the training data (that was used to create it) than the test data. This phenomenon is known as overfiting; it occurs when we find a weight vector which represents the training data very well, but does not generalize beyond it. Two common solutions are reguralization and cross-validation (I may expand the code to involve these in later posts).
 
 ### Linear separability
 
@@ -245,12 +242,13 @@ PLA makes the assumption that all the data can be separated by a hyperplane (as 
  <div align="center">
 <img src="{{site.baseurl}}/assets/img/perceptron-post/bad-data.png" alt="non-linearly separable" height="250" width="250">
 </div>
-Although our training data was linearly separable because we were able to find a hyperplane that classified all the articles correctly, it did not generalize to our test data. Approaches to resolve non-linearly separable data include the voting perceptron (found on page 19 in the previous link) and [kernels](https://www.quora.com/What-are-Kernels-in-Machine-Learning-and-SVM). 
+Although our training data was linearly separable because we were able to find a hyperplane that classified all the articles correctly, it did not generalize to our test data. Approaches to resolve non-linearly separable data include the voting perceptron (found on page 19 [here](http://web.engr.oregonstate.edu/~xfern/classes/cs534/notes/perceptron-4-11.pdf)) and [kernels](https://www.quora.com/What-are-Kernels-in-Machine-Learning-and-SVM). 
 
 ### Convergence
 
-A common problem with machine learning algorithms is to know when to stop because you've found the optimal solution. If the data was linearly separable, PLA will converge to a solution (you can find the proof on page 13 [here](http://web.engr.oregonstate.edu/~xfern/classes/cs534/notes/perceptron-4-11.pdf)). Although, these exist methods to tell when you have converged, in our case running the code a fixed number of iterations is sufficient (I experimented with several values to find one that worked well). The downside of using a finite number of iterations is that the final weight vector may not be optimal - running the code several times, I got varying performance on the test data. This happens because many different hyperplanes separate the training data perfectly. To pick between these solutions, we will need to use [support vector machines](https://en.wikipedia.org/wiki/Support_vector_machine).
+A common problem with machine learning algorithms is to know when to stop because you've found the optimal solution. If the data was linearly separable, PLA will converge to a solution (you can find the proof on page 13 [here](http://web.engr.oregonstate.edu/~xfern/classes/cs534/notes/perceptron-4-11.pdf)). Although, there exist methods to tell when you have converged, in our case running the code a fixed number of iterations is sufficient (I experimented with several values to find one that worked well). The downside of using a finite number of iterations is that the final weight vector may not be optimal - running the code several times, I got varying levels of performance on the test data: for the medical vs space, percent incorrect varied between 5 and 8 percent; for mac vs ibm between 13 and 15 percent; for atheist vs christian between 7 and 10 percent.
 
+ This happens because many different hyperplanes separate the training data perfectly. To pick between these solutions, we will need to turn to [support vector machines](https://en.wikipedia.org/wiki/Support_vector_machine)!!
 
 
 Image Sources:
@@ -258,5 +256,17 @@ Image Sources:
 ** https://work.caltech.edu/library/
 
 ** https://www.quora.com/How-can-I-know-whether-my-data-is-linearly-separable
+
+Links in article:
+
+** http://karpathy.github.io/2015/05/21/rnn-effectiveness/
+
+** http://qwone.com/~jason/20Newsgroups/
+
+** http://web.engr.oregonstate.edu/~xfern/classes/cs534/notes/perceptron-4-11.pdf
+
+** https://www.quora.com/What-are-Kernels-in-Machine-Learning-and-SVM
+
+** https://en.wikipedia.org/wiki/Support_vector_machine
 
 
