@@ -8,7 +8,7 @@ title: "In which computers tell the difference between space and medicine"
 <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
 
 
-Machine Learning is both [awesome](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) and popular in both research and industry. However, I haven't found many introductory tutorials on it that combine math and implementation . So, in this blog post I hope to do both by showing how to use the perceptron learning algorithm to classify articles by topic.
+Machine Learning is both [awesome](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) and popular in both research and industry. However, I haven't found many introductory tutorials on it that combine math and implementation. So, in this blog post I hope to do both by showing how to use the perceptron learning algorithm to classify articles by topic.
 
  If you want to follow along with the code, clone [akornilo/perceptron-learning.git](https://github.com/akornilo/perceptron-learning). You will only need Python to run it.
 
@@ -18,7 +18,7 @@ The data we will be classifying is part of the [20 newsgroups dataset](http://qw
  * Each article has been transformed into a dictionary mapping words to how many times they appear in the article.
  * The articles have been grouped into pairs of similar topics: macintosh vs ibm, medical vs space, and atheist vs christian.
 
- Although, these changes sacrafice some of the information, they make it simple for us to dive into the classification task. You can check out the data in the 'data' subdirectory of the github repo. For each pair of topics, there are four files: *.dev, *.test, *.train and *.response. The dev, test and train files contain the split up data, with lines of the format (this example is from the medspace.train file):
+ Although, these changes sacrifice some of the information, they make it simple for us to dive into the classification task. You can check out the data in the 'data' subdirectory of the github repo. For each pair of topics, there are four files: *.dev, *.test, *.train and *.response. The dev, test and train files contain the split up data, with lines of the format (this example is from the medspace.train file):
 
  ```
 60801.s	{"control": 2, "in": 1, "au": 1, "thanks": 1, "edu": 1, "cold": 2, "sounding": 1, "size": 1, "from": 1, "for": 1, "how": 1, "jim": 1, "anyone": 1, "to": 1, "does": 1, "subject": 1, "roll": 2, "8725157m": 1, "australia": 1, "thruster": 2, "gas": 2, "levels": 1, "know": 1, "tanks": 2, "<digit>": 1, "advance": 1, "of": 1, "university": 1, "lines": 1, "unisa": 1, "rockets": 1, "organization": 1, "south": 1}
@@ -80,7 +80,7 @@ and the max will be 0, otherwise the max will represent the "distance" in the wr
 
 To find a good weight vector, we should minimize this loss function. One way to do it is with stochastic gradient descent. This method iteratively considers the training points, finds the loss using the weights at the time, then finds the gradient of the loss function and moves against it. Since the gradient represents the direction of greatest increase, moving in the opposite direction will minimize the loss the most. 
 
-When we are looking at some point i, the loss is:
+When we are looking at some point *i*, the loss is:
 
 <p id="eq5" align="center"> </p>
 <script>
@@ -91,7 +91,7 @@ The gradient (derivative with respect to the weights) of this loss is:
 
 <p id="eq6" align="center"> </p>
 <script>
-katex.render("\\nabla L_i(w) = \\begin{cases} 0 & \\text{if } y_i \\mathbf{w \\cdot x_i} > 0 \\\\ -y_i \\matbf{x_i} & \\text{o.w} \\end{cases}", document.getElementById("eq6"));
+katex.render("\\nabla L_i(w) = \\begin{cases} 0 & \\text{if} -y_i \\mathbf{w \\cdot x_i} > 0 \\\\ -y_i x_i & \\text{o.w} \\end{cases}", document.getElementById("eq6"));
 </script>
 
 This leads to the update rule for the weights:
@@ -234,7 +234,7 @@ Our implementation gave us a pretty good results, but it also highlighted a coup
 
 ### Overfitting
 
-As you may have noticed, the final weight vector performed much better on the training data (that was used to create it) than the test data. This phenomenon is known as overfiting; it occurs when we find a weight vector which represents the training data very well, but does not generalize beyond it. Two common solutions are reguralization and cross-validation (I may expand the code to involve these in later posts).
+As you may have noticed, the final weight vector performed much better on the training data (that was used to create it) than the test data. This phenomenon is known as overfitting; it occurs when we find a weight vector which represents the training data very well, but does not generalize beyond it. Two common solutions are reguralization and cross-validation (I may expand the code to involve these in later posts).
 
 ### Linear separability
 
@@ -248,7 +248,7 @@ Although our training data was linearly separable because we were able to find a
 
 A common problem with machine learning algorithms is to know when to stop because you've found the optimal solution. If the data was linearly separable, PLA will converge to a solution (you can find the proof on page 13 [here](http://web.engr.oregonstate.edu/~xfern/classes/cs534/notes/perceptron-4-11.pdf)). Although, there exist methods to tell when you have converged, in our case running the code a fixed number of iterations is sufficient (I experimented with several values to find one that worked well). The downside of using a finite number of iterations is that the final weight vector may not be optimal - running the code several times, I got varying levels of performance on the test data: for the medical vs space, percent incorrect varied between 5 and 8 percent; for mac vs ibm between 13 and 15 percent; for atheist vs christian between 7 and 10 percent.
 
- This happens because many different hyperplanes separate the training data perfectly. To pick between these solutions, we will need to turn to [support vector machines](https://en.wikipedia.org/wiki/Support_vector_machine)!!
+ This happens because many different hyperplanes separate the training data perfectly. To pick between these solutions, we will need to turn to [support vector machines](https://en.wikipedia.org/wiki/Support_vector_machine)!! I may cover these extensions in more detail later, but, for now I hope this post will help you dive deeper into this exciting area of research. :)
 
 
 Image Sources:
