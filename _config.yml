@@ -22,6 +22,8 @@ navigation:
    url: /archive
  - title: About
    url: /about
+ - title: Resume
+   url: /KornilovaS2016Resume.pdf
 
 
 # Includes an icon in the footer for each username you enter
