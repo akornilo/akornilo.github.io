@@ -11,7 +11,7 @@ description: A little bit of math, language technologies and learning
 paginate_path: "/page:num/"
 permalink: /:title/
 
-markdown: redcarpet
+markdown: kramdown
 highlighter: pygments
 paginate: 5
 
@@ -69,3 +69,5 @@ exclude:
     - LICENSE
     - README.md
     - CNAME
+
+future: true
