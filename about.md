@@ -9,7 +9,7 @@ published: true
 
 Hello! 
 
-My name is Anastassia Kornilova. I am a research scientist (fancier name for a data scientist) at FiscalNote. I spend my days building Machine Learning models and other analytics on legislative data. As an example, I recently published a [paper](https://arxiv.org/abs/1805.08182) at [ACL](https://www.aclweb.org/portal/) on predicting how legislators will vote on bills.
+My name is Anastassia Kornilova. I am a research scientist (fancier name for a data scientist) at [FiscalNote](https://www.fiscalnote.com/). I spend my days building Machine Learning models and other analytics on legislative data. As an example, I recently published a [paper](https://arxiv.org/abs/1805.08182) at [ACL](https://www.aclweb.org/portal/) on predicting how legislators will vote on bills.
 
 Previously, I graduated from Carnegie Mellon University with a Bachelor in Computer Science and a minor in Language Technologies. I've, also, interned at Pinterest and Khna Acedemy.
 
