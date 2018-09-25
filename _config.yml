@@ -23,12 +23,12 @@ navigation:
  - title: About
    url: /about
  - title: Resume
-   url: /KornilovaS2016Resume.pdf
+   url: /kornilova_resume_2018_v2.pdf
 
 
 # Includes an icon in the footer for each username you enter
 social:
-  email: anastassia@cmu.edu
+  email: anastassia.kornilova@gmail.com
   github: akornilo
   rss: hi # just type anything here for a working RSS icon, make sure you set the "url" above!
 
