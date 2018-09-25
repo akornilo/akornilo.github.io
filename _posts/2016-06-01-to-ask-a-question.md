@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 layout: post
 title: "How to ask a question (automatically)"
 ---
