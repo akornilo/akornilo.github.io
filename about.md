@@ -5,7 +5,6 @@ permalink: /about/
 published: true
 ---
 
-<img class="img-circle" style="border-radius: 50%;max-height: 150px; float: left; margin: 10px" src="/assets/img/profile.jpg">
 
 Hello! 
 
