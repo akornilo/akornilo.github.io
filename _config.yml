@@ -17,7 +17,7 @@ paginate: 5
 
 navigation:
  - title: Home
-   url: /about
+   url: /
  - title: Blog
    url: /blog.html
  - title: Resume
