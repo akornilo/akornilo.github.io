@@ -18,8 +18,8 @@ paginate: 5
 navigation:
  - title: Home
    url: /
- - title: Archive
-   url: /archive
+ - title: Blog
+   url: /blog
  - title: Resume
    url: /kornilova_resume_2018_v2.pdf
 
