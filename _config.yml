@@ -19,8 +19,6 @@ navigation:
  - title: Home
    url: /about
  - title: Blog
-   url: index.html
- - title: Archive
    url: /archive
  - title: Resume
    url: /kornilova_resume_2018_v2.pdf
