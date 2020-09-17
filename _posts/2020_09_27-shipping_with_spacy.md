@@ -14,6 +14,7 @@ There is not an official approach for doing this, so in this tutorial I will out
 
 ![](spacy_pipeline_v2.svg)
 
+## Set-up
 
 First, we need to get a copy of an existing model SpaCy publishes the official models on github as [releases](https://github.com/explosion/spacy-models/releases/). I will take the [medium English model](https://github.com/explosion/spacy-models/releases/download/en_core_web_md-2.3.1/en_core_web_md-2.3.1.tar.gz) and untar it into a new folder (`cool_new_model`). The directory will look like:
 
@@ -31,9 +32,13 @@ en_core_web_md-2.3.1
  
 ```
 
-The files in the inner "actual model" folder contain the all the pre-trained components, I will not be touching this. The `meta.json` file is central and defines everything about the model. Most of the fields exist primarily for documentation purposes (`author`, `sources`, `description`). For this tutorial, we are interested in three of the fields: `name`, `pipelines` and `factories`.
+The files in the inner "actual model" folder contain the pre-trained components, we will not be touching these. Our work will focus on the `meta.json` and `__init__.py` files.
 
-The `name` is the name of the new model, this is the name that you would call when loading it (you can also change the `version`). We will change it to `web_custom_md`, the we will rename the directory structure to match.
+The `meta.json` file is heart of a SpaCy model. It defined everything from documentation (`author`, `sources`..) to the accuracy of the trained model to the model definition itself `pipelines`. 
+
+## Renaming the Model
+
+The `name` in `meta.json` the name of the new model, this is string that you pass into `spacy.load`. While you can stick with the existing name (`core_web_md`), a new name can be helpful for distinction. We will change it to `web_custom_md`, the we will rename the directory structure to match.
 
 ```
 en_web_custom_md-2.3.1
@@ -49,9 +54,15 @@ en_web_custom_md-2.3.1
  
 ```
 
-Next, we will add some new components. For simplicity, we will add the example from the SpaCy documentation that adds "titles" to an NER (e.g Ms. Kornilova). We will add the code to the `__init__.py` file that will now look like:
+The `2.3.1` field corresponds to the `version` in `meta.json`, you could change it to something new (e.g `1.0` since this is the first version of your custom model`). The `en` is not part of the name field, because it is already specified in the `language` field. In general, Spacy uses the Language to specify some basic parsing rules, regardless of what model is used for the remaining components.
 
-```
+## Defining New Components
+
+Next, we will add some new components. For simplicity, we will use the example from the SpaCy documentation that adds "titles" to an NER (e.g Ms. Kornilova). We will call this component `expand_person_entities`.
+
+First, we add the code to the `__init__.py` file. Next, we need to tell SpaCy how to find the new component by modified the `Language.factories` component. We add the change to the `load` method. The resulting file will look like:
+
+```python
 from __future__ import unicode_literals
 from pathlib import Path
 
@@ -64,8 +75,9 @@ __version__ = get_model_meta(Path(__file__).parent)['version']
 
 
 def load(**overrides):
-    return load_model_from_init_py(__file__, **overrides)
+    Language.factories['expand_person_entities'] = lambda nlp, **cfg: expand_person_entities
 
+    return load_model_from_init_py(__file__, **overrides)
 
 def expand_person_entities(doc):
     new_ents = []
@@ -84,15 +96,15 @@ def expand_person_entities(doc):
     return doc
 ```
 
-This will add the new function to the model package. However, we still need to associate the function with a new pipeline layer. We do this by changing the `load` method:
+The same pattern can be used for full components:
 
 ```
-
-def load(**overrides):
-    Language.factories['expand_person_entities'] = lambda nlp, **cfg: expand_person_entities
-
-    return load_model_from_init_py(__file__, **overrides)
+patterns = [] # Some Entity Matcher Patterns
+Language.factories["entity_matcher"] = lambda nlp, **cfg: EntityMatcher(nlp, patterns=patterns)
 ```
+
+[https://spacy.io/usage/processing-pipelines#custom-components-factories](Additional details on factories)
+
 
 The `Language.factories` contain definitions for how to create the pipeline layer when a model is instantiated. Now that we know "how" to create the layer, we need to add it to the model. We modify the `pipeline` value in `meta.json` and add a new `factories` key:
 
