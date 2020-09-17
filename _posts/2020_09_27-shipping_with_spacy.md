@@ -105,7 +105,7 @@ Language.factories["entity_matcher"] = lambda nlp, **cfg: EntityMatcher(nlp, pat
 
 See another example of a complex component [here](https://spacy.io/usage/examples#custom-components-entities).
 
-[https://spacy.io/usage/processing-pipelines#custom-components-factories](Additional details on factories)
+[Additional details on factories](https://spacy.io/usage/processing-pipelines#custom-components-factories)
 
 ## Adding to the Pipeline
 
