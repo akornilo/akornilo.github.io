@@ -148,3 +148,5 @@ list(model("Ms. Anastassia wrote this blog post").ents)
 You can package the model into a single file by running `python setup.py sdist`. This will produce the file `dist/en_web_custom_md-2.3.1.tar.gz` which can be installed directly with pip.
 
 If you trained a new model (using the CLI or Prodigy), it may not have the set-up necessary to run this tutorial. In that case, you should call the [package](https://spacy.io/api/cli#package) method: `python -m spacy package input_model_path package_model_path`. After, the `package_model_path` should have the folder structure outlined in the beginning of the tutorial.
+
+Do you have a different method for packaging models? Are there other SpaCy tips or tricks that you want me to go over? Drop a line in the comments!
