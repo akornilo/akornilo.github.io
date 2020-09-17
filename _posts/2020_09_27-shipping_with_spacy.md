@@ -98,41 +98,53 @@ def expand_person_entities(doc):
 
 The same pattern can be used for full components:
 
-```
+```python
 patterns = [] # Some Entity Matcher Patterns
 Language.factories["entity_matcher"] = lambda nlp, **cfg: EntityMatcher(nlp, patterns=patterns)
 ```
 
+See another example of a complex component [here](https://spacy.io/usage/examples#custom-components-entities).
+
 [https://spacy.io/usage/processing-pipelines#custom-components-factories](Additional details on factories)
 
+## Adding to the Pipeline
 
-The `Language.factories` contain definitions for how to create the pipeline layer when a model is instantiated. Now that we know "how" to create the layer, we need to add it to the model. We modify the `pipeline` value in `meta.json` and add a new `factories` key:
+Now that SpaCy knows the definition for the new component, we need to add it to the model. To do this we modify the `pipeline` key in the `meta.json` class:
 
-```
+```json
   "pipeline":[
     "sentencizer",
     "tagger",
     "parser",
     "ner",
     "expand_person_entities"
-  ],
+  ]
+```
 
+In addition, we need to specify a new `factories` key with instructions for loading the components:
+
+```json
   "factories":{
     "tagger":"tagger",
     "parser":"parser",
     "ner":"ner",
     "expand_person_entities": "expand_person_entities"
-  },
-
+  }
 ```
+## Build the Model
 
 Finally, we build the new model package by calling `pip install -e .` in the top level folder. We can now load the new model by calling `spacy.load('en_web_custom_md')`. 
 
 ```
-Add the before and after example
+model = spacy.load(`en_core_web_md`)
+list(model("Ms. Anastassia wrote this blog post").ents)
+>>
+
+model = spacy.load(`en_web_custom_md`)
+list(model("Ms. Anastassia wrote this blog post").ents)
+>>
 ```
 
-You can package the model into a single file by running `python setup.py sdist`. This will produce the file `dist/en_web_cusom_md-2.3.1.tar.gz` which can be installed directly with pip.
+You can package the model into a single file by running `python setup.py sdist`. This will produce the file `dist/en_web_custom_md-2.3.1.tar.gz` which can be installed directly with pip.
 
-The `__init__.py` file is also a good place to define [custom extensions](https://spacy.io/usage/processing-pipelines#custom-components-attributes). My example used a 
-
+If you trained a new model (using the CLI or Prodigy), it may not have the set-up necessary to run this tutorial. In that case, you should call the [package](https://spacy.io/api/cli#package) method: `python -m spacy package input_model_path package_model_path`. After, the `package_model_path` should have the folder structure outlined in the beginning of the tutorial.
