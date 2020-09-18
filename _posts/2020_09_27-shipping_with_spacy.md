@@ -6,6 +6,8 @@ title: "Shipping with SpaCy"
 
 # Shipping with SpaCy
 
+*Note: This tutorial assumes some basic familiarity with SpaCy and was tested with version 2.3.1 of the library*
+
 When it comes to Natural Language Processing, I am a huge [SpaCy](https://spacy.io/) fangirl. The library is easy to use, and the pretrained models produce great results. Beyond the existing components like Dependency Parsing and Named Entity Recognition, the library makes it easy to add custom processing steps: from [tagging additional entities using regular expressions](https://spacy.io/usage/rule-based-matching#regex) to [adding custom sentence boundary rules](https://spacy.io/usage/linguistic-features#sbd-custom) to [adding prefixes for a PERSON NER](https://spacy.io/usage/rule-based-matching#models-rules-ner). 
 
 While SpaCy provided documentation for the various use-cases, I could not an explanation for how to package these with the model. For all the examples above, the new components were added using `nlp.add_pipe(NEW_COMPONENT)`, which modifies the existing model object with a new layer.While this set-up makes sense for experimentation, for production projects, I wanted the additional layers packaged in with the model, so I could just call `spacy.load` and have my new components available.
@@ -138,15 +140,17 @@ Finally, we build the new model package by calling `pip install -e .` in the top
 ```
 model = spacy.load(`en_core_web_md`)
 list(model("Ms. Anastassia wrote this blog post").ents)
->>
+>> ['Anastassia']
 
 model = spacy.load(`en_web_custom_md`)
 list(model("Ms. Anastassia wrote this blog post").ents)
->>
+>> ['Ms. Anastassia']
 ```
 
 You can package the model into a single file by running `python setup.py sdist`. This will produce the file `dist/en_web_custom_md-2.3.1.tar.gz` which can be installed directly with pip.
 
 If you trained a new model (using the CLI or Prodigy), it may not have the set-up necessary to run this tutorial. In that case, you should call the [package](https://spacy.io/api/cli#package) method: `python -m spacy package input_model_path package_model_path`. After, the `package_model_path` should have the folder structure outlined in the beginning of the tutorial.
+
+Note: If your new layer involves custom files, for example a list of phrases for a PhraseMatcher, add the path to the new file to the `MANIFEST.in` file.
 
 Do you have a different method for packaging models? Are there other SpaCy tips or tricks that you want me to go over? Drop a line in the comments!
